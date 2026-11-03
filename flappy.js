@@ -193,10 +193,10 @@
 
   function spawnObstacle() {
     obstacleNumber++;
-    const speed = Math.min(330, 238 + score * 3) * (H > W ? .78 : 1);
+    const speed = Math.min(330, 238 + score * 3) * (H > W ? .64 : 1);
     const kind = obstacleNumber % 3;
     if (kind === 1) {
-      const gap = Math.max(150, 188 - score * 1.5);
+      const gap = H > W ? Math.max(215, 255 - score * 1.15) : Math.max(150, 188 - score * 1.5);
       obstacles.push({
         type: "gate",
         x: W + 45,
@@ -241,14 +241,14 @@
 
   function update(dt) {
     elapsed += dt;
-    const speedBoost = Math.min(score * 2.2, 55);
+    const speedBoost = Math.min(score * 2.2, 55) * (H > W ? .72 : 1);
     player.vy += 930 * (H / 540) * dt;
     player.y += player.vy * dt;
     player.rotation = Math.max(-.48, Math.min(.95, player.vy / (520 * H / 540)));
 
     if (elapsed >= nextSpawn) {
       spawnObstacle();
-      nextSpawn = elapsed + Math.max(1.32, 1.72 - score * .012);
+      nextSpawn = elapsed + Math.max(H > W ? 1.85 : 1.32, (1.72 - score * .012) * (H > W ? 1.2 : 1));
     }
 
     for (const obstacle of obstacles) {
@@ -277,7 +277,7 @@
     if (elapsed >= nextBeam) {
       const source = witchPosition();
       beams.push({ state: "aim", timer: 0, x: source.x + 51, y: source.y + 8, targetX: player.x, targetY: player.y });
-      nextBeam = elapsed + 7.1 + Math.random() * 1.6;
+      nextBeam = elapsed + (H > W ? 9.2 : 7.1) + Math.random() * (H > W ? 2 : 1.6);
     }
 
     for (const beam of beams) {
@@ -288,7 +288,7 @@
         beam.y = source.y + 8;
         beam.targetX = player.x;
         beam.targetY = player.y;
-        if (beam.timer > .78) {
+        if (beam.timer > (H > W ? 1.05 : .78)) {
           beam.state = "fire";
           beam.timer = 0;
           const dx = beam.targetX - beam.x;
@@ -296,7 +296,7 @@
           const distance = Math.max(1, Math.hypot(dx, dy));
           beam.dirX = dx / distance;
           beam.dirY = dy / distance;
-          beam.speed = 680;
+          beam.speed = H > W ? 490 : 680;
           beam.vx = beam.dirX * beam.speed;
           beam.vy = beam.dirY * beam.speed;
           beam.traveled = 0;
@@ -601,7 +601,7 @@
   }
 
   function witchPosition() {
-    return { x: W - 135, y: H * .35 + Math.sin(elapsed * 1.25) * Math.min(35, H * .035) };
+    return { x: W - (H > W ? 65 : 135), y: H * .35 + Math.sin(elapsed * 1.25) * Math.min(35, H * .035) };
   }
 
   function drawWitch() {
