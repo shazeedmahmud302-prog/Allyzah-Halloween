@@ -34,7 +34,7 @@
 @media(max-width:650px){
   .flappy-view{margin-inline:-18px;padding:16px 14px 30px;min-width:0}
   .flappy-shell{width:100%;min-width:0}
-  .flappy-stage{width:calc(100% + 28px);margin:0 0 0 -14px;min-height:0;border-radius:12px;aspect-ratio:16/9}
+  .flappy-stage{width:min(100%,430px);height:auto;max-height:78svh;min-height:0;margin:0 auto;border-radius:20px;aspect-ratio:9/16}
   #flappyCanvas{width:100%;height:100%}
   .flappy-card{width:100%;max-width:390px;padding:16px 14px}
   .flappy-card p:not(.eyebrow){font-size:12px;line-height:1.45}
@@ -45,6 +45,14 @@
   .pause-button{margin:0;padding:4px 7px;font-size:10px;white-space:nowrap}
   .flappy-help,.flappy-asset-note{padding-inline:2px;line-height:1.5}
   .flappy-help{font-size:10px}
+}
+@media(max-width:430px){
+  .flappy-stage{width:min(100%,430px);aspect-ratio:9/16}
+  .flappy-hud{left:9px;right:9px;top:10px}
+  .score-group{gap:5px}
+  .score-pill{padding:5px 8px;font-size:9px}
+  .score-pill strong{font-size:15px;margin-left:4px}
+  .pause-button{padding:5px 8px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){.witch-badge{animation:none}.flappy-stage.shake{animation:none}}
 

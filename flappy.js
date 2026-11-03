@@ -5,8 +5,8 @@
   if (!section || !canvas) return;
 
   const ctx = canvas.getContext("2d");
-  const W = 960;
-  const H = 540;
+  let W = 960;
+  let H = 540;
   const playerImage = new Image();
   let hasPlayerImage = false;
   playerImage.onload = () => { hasPlayerImage = true; };
@@ -67,25 +67,41 @@
   let obstacleNumber = 0;
   let obstacles = [];
   let beams = [];
-  let player = { x: 205, y: 270, vy: 0, radius: 30, rotation: 0 };
+  let player = { x: W * .215, y: H * .5, vy: 0, radius: 30, rotation: 0 };
 
 
-  const stars = Array.from({ length: 45 }, (_, i) => {
-    const random = seed => {
-      const value = Math.sin((i + 1) * 127.1 + seed * 311.7) * 43758.5453;
-      return value - Math.floor(value);
-    };
-    return {
-      x: random(1) * W,
-      y: random(2) * 390,
-      r: 1.1 + random(3) * .9,
-      phase: random(4) * Math.PI * 2
-    };
-  });
+  function createStars() {
+    return Array.from({ length: 55 }, (_, i) => {
+      const random = seed => {
+        const value = Math.sin((i + 1) * 127.1 + seed * 311.7) * 43758.5453;
+        return value - Math.floor(value);
+      };
+      return { x: random(1) * W, y: random(2) * H * .82, r: 1.1 + random(3) * .9, phase: random(4) * Math.PI * 2 };
+    });
+  }
+  let stars = createStars();
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
+    const portrait = rect.height > rect.width;
+    const nextW = portrait ? 540 : 960;
+    const nextH = portrait ? 960 : 540;
+    if (nextW !== W || nextH !== H) {
+      const scaleX = nextW / W, scaleY = nextH / H;
+      W = nextW; H = nextH;
+      player.x *= scaleX; player.y *= scaleY; player.vy *= scaleY;
+      for (const obstacle of obstacles) {
+        obstacle.x *= scaleX;
+        if (Number.isFinite(obstacle.speed)) obstacle.speed *= scaleX;
+        for (const key of ["y", "currentY", "gapY", "currentGapY", "move"]) if (Number.isFinite(obstacle[key])) obstacle[key] *= scaleY;
+      }
+      for (const beam of beams) {
+        for (const key of ["x", "startX", "targetX", "vx"]) if (Number.isFinite(beam[key])) beam[key] *= scaleX;
+        for (const key of ["y", "startY", "targetY", "vy"]) if (Number.isFinite(beam[key])) beam[key] *= scaleY;
+      }
+      stars = createStars();
+    }
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(rect.width * dpr);
     canvas.height = Math.round(rect.height * dpr);
@@ -112,7 +128,7 @@
     nextBeam = 4.4;
     obstacles = [];
     beams = [];
-    player = { x: 205, y: 270, vy: 0, radius: 30, rotation: 0 };
+    player = { x: W * .215, y: H * .5, vy: 0, radius: 30, rotation: 0 };
     ui.score.textContent = "0";
     ui.pause.textContent = "Ⅱ Pause";
     ui.hit.classList.remove("show");
@@ -130,7 +146,7 @@
   }
 
   function flap() {
-    player.vy = -350;
+    player.vy = -350 * (H / 540);
   }
 
   function pauseGame() {
@@ -177,7 +193,7 @@
 
   function spawnObstacle() {
     obstacleNumber++;
-    const speed = Math.min(330, 238 + score * 3);
+    const speed = Math.min(330, 238 + score * 3) * (H > W ? .78 : 1);
     const kind = obstacleNumber % 3;
     if (kind === 1) {
       const gap = Math.max(150, 188 - score * 1.5);
@@ -186,7 +202,7 @@
         x: W + 45,
         width: 76,
         gap,
-        gapY: 165 + Math.random() * 205,
+          gapY: H * .3 + Math.random() * H * .38,
         move: score > 2 ? 18 + Math.min(score, 14) : 0,
         phase: Math.random() * 6.28,
         speed,
@@ -196,7 +212,7 @@
       obstacles.push({
         type: "pumpkin",
         x: W + 35,
-        y: 90 + Math.random() * 340,
+        y: H * .18 + Math.random() * H * .62,
         radius: 28,
         speed: speed + 12,
         phase: Math.random() * 6.28,
@@ -206,7 +222,7 @@
       obstacles.push({
         type: "branch",
         x: W + 40,
-        y: 105 + Math.random() * 320,
+        y: H * .2 + Math.random() * H * .6,
         width: 94,
         height: 22,
         speed: speed + 4,
@@ -226,9 +242,9 @@
   function update(dt) {
     elapsed += dt;
     const speedBoost = Math.min(score * 2.2, 55);
-    player.vy += 930 * dt;
+    player.vy += 930 * (H / 540) * dt;
     player.y += player.vy * dt;
-    player.rotation = Math.max(-.48, Math.min(.95, player.vy / 520));
+    player.rotation = Math.max(-.48, Math.min(.95, player.vy / (520 * H / 540)));
 
     if (elapsed >= nextSpawn) {
       spawnObstacle();
@@ -428,21 +444,22 @@
 
     ctx.fillStyle = "#ffe5a6";
     ctx.beginPath();
-    ctx.arc(790, 95, 43, 0, Math.PI * 2);
+    ctx.arc(W * .82, H * .18, 43, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = "#38264f";
     ctx.beginPath();
-    ctx.arc(809, 79, 42, 0, Math.PI * 2);
+    ctx.arc(W * .84, H * .15, 42, 0, Math.PI * 2);
     ctx.fill();
 
-    drawCloud(155 - (elapsed * 12) % 1080, 120, .8);
-    drawCloud(520 - (elapsed * 8) % 1080, 215, .55);
-    drawHill(0, 445, 360, 60, "#514064");
-    drawHill(310, 461, 380, 48, "#43375e");
-    drawHill(670, 448, 430, 65, "#514064");
-    drawPumpkin(78, H - 38, 23, 0);
-    drawPumpkin(875, H - 38, 28, 0);
-    drawBat(600 - (elapsed * 35) % 1100, 90 + Math.sin(elapsed) * 18, .7);
+    const cloudSpan = W + 180;
+    drawCloud(75 + W * .22 - (elapsed * 12) % cloudSpan, H * .23, .8);
+    drawCloud(W * .68 - (elapsed * 8) % cloudSpan, H * .4, .55);
+    drawHill(0, H - 95, W * .42, 60, "#514064");
+    drawHill(W * .3, H - 78, W * .42, 48, "#43375e");
+    drawHill(W * .66, H - 92, W * .48, 65, "#514064");
+    drawPumpkin(W * .08, H - 38, 23, 0);
+    drawPumpkin(W * .91, H - 38, 28, 0);
+    drawBat(W * .62 - (elapsed * 35) % (W + 80), H * .17 + Math.sin(elapsed) * 18, .7);
     ctx.fillStyle = "#322746";
     ctx.fillRect(0, H - 30, W, 30);
     ctx.fillStyle = "#907252";
@@ -450,7 +467,7 @@
   }
 
   function drawCloud(x, y, scale) {
-    if (x < -120) x += 1080;
+    if (x < -120) x += W + 180;
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(scale, scale);
@@ -584,7 +601,7 @@
   }
 
   function witchPosition() {
-    return { x: 825, y: 190 + Math.sin(elapsed * 1.25) * 35 };
+    return { x: W - 135, y: H * .35 + Math.sin(elapsed * 1.25) * Math.min(35, H * .035) };
   }
 
   function drawWitch() {
