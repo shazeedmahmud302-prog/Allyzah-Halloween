@@ -1,0 +1,27 @@
+.fruit-view .mini-game-shell {
+  max-width:780px
+}
+
+.fruit-stage {
+  background:radial-gradient(ellipse at 50% 20%,#503763,#281b3e 72%)
+}
+
+.fruit-stage canvas {
+  width:min(100%,480px);
+  max-height:68vh
+}
+
+.fruit-stage::after {
+  content:'';
+  position:absolute;
+  inset:auto 0 0;
+  height:10%;
+  pointer-events:none;
+  background:linear-gradient(transparent,#130d1c55)
+}
+
+.slice-trail {
+  position:absolute;
+  inset:0;
+  pointer-events:none
+}

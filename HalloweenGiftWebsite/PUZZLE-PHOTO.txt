@@ -1,0 +1,5 @@
+The puzzle photo choices are:
+assets/photos/couple-puzzle-1.jpg
+assets/photos/couple-puzzle-2.jpg
+
+Both current photos are the new images provided. The puzzle renders transparent interlocking jigsaw pieces, not square tiles. Replace either file to change a photo.

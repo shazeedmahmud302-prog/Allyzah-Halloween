@@ -1,0 +1,8 @@
+.candy-stage {
+  background:linear-gradient(#39264f,#231934)
+}
+
+.candy-stage canvas {
+  width:min(100%,480px);
+  max-height:68vh
+}

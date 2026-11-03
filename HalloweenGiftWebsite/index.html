@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#2b1c43">
+    <title>
+      Allyzah's Little Halloween
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=DM+Sans:wght@400;600&family=Kalam&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flappy.css">
+    <link rel="stylesheet" href="games.css">
+    <link rel="stylesheet" href="fruit.css">
+    <link rel="stylesheet" href="puzzle.css">
+    <link rel="stylesheet" href="candy.css">
+  </head>
+  <body>
+    <svg class="night-scenery" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="#ffe6a7" class="scenery-stars">
+      <path d="M205 130l7 18 18 7-18 7-7 18-7-18-18-7 18-7z"/><path d="M1015 270l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/><path d="M1270 380l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/>
+      <circle cx="340" cy="250" r="3"/><circle cx="880" cy="120" r="3"/><circle cx="1110" cy="220" r="2"/><circle cx="90" cy="360" r="2"/><circle cx="720" cy="185" r="2"/><circle cx="1320" cy="270" r="3"/>
+    </g>
+    <g class="scenery-moon"><circle cx="1190" cy="145" r="60" fill="#ffe5a2"/><circle cx="1220" cy="120" r="58" fill="#39274f"/><circle cx="1165" cy="137" r="4" fill="#d4b57d"/><circle cx="1184" cy="165" r="6" fill="#d4b57d"/></g>
+    <g class="scenery-bat" fill="#211832"><path d="M0 18Q10 0 20 17Q30 0 40 18L36 11 31 19 25 12 20 21 15 12 9 19 4 11Z"/></g>
+    <g class="scenery-bat bat-two" fill="#211832"><path d="M0 18Q10 0 20 17Q30 0 40 18L36 11 31 19 25 12 20 21 15 12 9 19 4 11Z"/></g>
+    <g class="scenery-ghost" transform="translate(125 500)"><path d="M0 74V39a35 35 0 0 1 70 0v35l-12-8-11 9-12-9-12 9-11-9z" fill="#fff4eb"/><ellipse cx="26" cy="39" rx="4" ry="6" fill="#483452"/><ellipse cx="46" cy="39" rx="4" ry="6" fill="#483452"/><ellipse cx="18" cy="52" rx="5" ry="3" fill="#f3a6b8"/><ellipse cx="54" cy="52" rx="5" ry="3" fill="#f3a6b8"/><ellipse cx="36" cy="52" rx="3" ry="4" fill="#483452"/></g>
+    <path d="M0 785Q180 710 360 780T720 772T1080 780T1440 735V900H0Z" fill="#514064" opacity=".8"/>
+    <g class="scenery-house" transform="translate(85 636)"><path d="M0 79 95 0l95 79v116H0Z" fill="#352540"/><path d="m-12 83 107-98 107 98-16 12L95 8 4 95Z" fill="#79536d"/><path d="M74 117a21 21 0 0 1 42 0v78H74Z" fill="#533650"/><path d="M25 102h30v35H25zM135 102h30v35h-30z" fill="#ffd989" stroke="#765574" stroke-width="6"/><path d="M38 103v32m-12-16h28m96-16v32m-12-16h28" stroke="#765574" stroke-width="4"/><circle cx="105" cy="157" r="2" fill="#ffd989"/></g>
+    <g class="scenery-house house-two" transform="translate(1185 650) scale(.78)"><path d="M0 79 95 0l95 79v116H0Z" fill="#352540"/><path d="m-12 83 107-98 107 98-16 12L95 8 4 95Z" fill="#79536d"/><path d="M74 117a21 21 0 0 1 42 0v78H74Z" fill="#533650"/><path d="M25 102h30v35H25zM135 102h30v35h-30z" fill="#ffd989" stroke="#765574" stroke-width="6"/><path d="M38 103v32m-12-16h28m96-16v32m-12-16h28" stroke="#765574" stroke-width="4"/></g>
+    <g class="scenery-pumpkin" transform="translate(395 790)"><ellipse cx="34" cy="28" rx="34" ry="24" fill="#f59a58"/><path d="M34 5q-3-12 5-16l8 2-5 12" fill="#87a96f"/><path d="m17 24 8 5-8 5zm34 0-8 5 8 5z" fill="#3c294d"/><path d="M23 39q11 11 23 0" fill="none" stroke="#3c294d" stroke-width="4" stroke-linecap="round"/></g>
+    <g class="scenery-pumpkin pumpkin-two" transform="translate(1035 815) scale(.8)"><ellipse cx="34" cy="28" rx="34" ry="24" fill="#f59a58"/><path d="M34 5q-3-12 5-16l8 2-5 12" fill="#87a96f"/><path d="m17 24 8 5-8 5zm34 0-8 5 8 5z" fill="#3c294d"/><path d="M23 39q11 11 23 0" fill="none" stroke="#3c294d" stroke-width="4" stroke-linecap="round"/></g>
+  </svg>
+  <header>
+      ✦ Allyzah's Little Halloween
+      <span class="header-actions">
+        <button id="music" type="button">♫ Music off</button>
+        <button id="lockPage" type="button" hidden>🔒 Lock</button>
+      </span>
+    </header>
+    <audio id="bgMusic" src="assets/music/halloween-song.mp3" loop preload="auto">
+    </audio>
+    <main>
+      <section id="gate" class="view active gate-view">
+      <div class="gate-card">
+        <p class="eyebrow">TINY TWIN CHECK</p>
+        <h1>Before we open your little Halloween world...</h1>
+        <p class="gate-question">What do we do when we’re stressed, twin?</p>
+        <form id="gateForm" autocomplete="off">
+          <label class="sr-only" for="gateAnswer">Your answer</label>
+          <input id="gateAnswer" type="text" placeholder="Your very scientific answer..." spellcheck="false">
+          <button class="primary" type="submit">Unlock the world →</button>
+        </form>
+        <p id="gateMessage" class="gate-message" aria-live="polite">No hints from the ghosts.</p>
+      </div>
+    </section>
+    <section id="welcome" class="view">
+        <p class="eyebrow">
+          MAHAL NA MAHAL KO IKAW PALAGI
+        </p>
+        <h1>
+          Something magical is waiting for you,
+          <em>
+            Allyzah ko...
+          </em>
+        </h1>
+        <p>
+          Hey, my little cutie pumpkin! I prepared a tiny Halloween surprise just for you.
+        </p>
+        <div class="portrait-stage">
+          <span class="float-charm charm-left">
+            🎃
+          </span>
+          <span class="float-charm charm-right">
+            ✦
+          </span>
+          <div class="portrait has-photo">
+            <img id="portraitPhoto" src="assets/photos/allyzah.jpg" alt="Allyzah" onerror="this.style.display='none';this.parentElement.classList.remove('has-photo')">
+            <span id="photoPrompt">
+              📷
+              <br>
+              Place her photo in
+              <br>
+              <small>
+                assets/photos/allyzah.jpg
+              </small>
+            </span>
+            <i class="hat-cone">
+            </i>
+            <i class="hat-band">
+            </i>
+            <i class="hat-brim">
+            </i>
+          </div>
+          <p class="portrait-caption">
+            maliit pumpkin, malaki magic
+          </p>
+          <div class="portrait-stars">
+            🏚️　✧　👻　🌙　🦇
+          </div>
+        </div>
+        <button class="primary" id="enter">
+          Enter Your Little Halloween World →
+        </button>
+      </section>
+      <section id="shop" class="view">
+        <h2>
+          Welcome to Your Little Gift Shop!
+        </h2>
+        <p>
+          Every little present has a surprise inside.
+        </p>
+        <nav class="main-navigation" aria-label="Main navigation">
+          <button data-go="game">
+            👻 Trick or treat
+          </button>
+          <button data-go="room">
+            🧸 Childhood room
+          </button>
+          <button data-go="games">🎮 Arcade</button>
+        </nav>
+        <p id="count">
+        </p>
+        <div id="gifts" class="grid">
+        </div>
+        <p id="unlock">
+        </p>
+
+      </section>
+      <section id="games" class="view arcade-menu-view">
+        <div class="arcade-menu-shell">
+          <button class="arcade-back" data-go="shop">← Gift shop</button>
+          <p class="eyebrow">A LITTLE MOONLIT ARCADE</p>
+          <h2>Pick a game, bebe 🎮</h2>
+          <p class="arcade-intro">Four separate little challenges. Play whichever one you like.</p>
+          <div class="arcade-grid">
+            <button class="arcade-card" data-go="flappy">
+              <span class="arcade-icon">🦇</span><strong>Flappy SHAZEEE</strong>
+              <span class="arcade-description">Dodge Allyzah’s magic.</span>
+              <small class="arcade-record">Best: <b id="arcadeFlappyBest">0</b></small>
+            </button>
+            <button class="arcade-card" data-go="fruit">
+              <span class="arcade-icon">🍉</span><strong>Spooky Ninja Slayer</strong>
+              <span class="arcade-description">Swipe treats, dodge bombs.</span>
+              <small class="arcade-record">Best: <b id="arcadeFruitBest">0</b></small>
+            </button>
+            <button class="arcade-card" data-go="puzzle">
+              <span class="arcade-icon">🧩</span><strong>Puzzle</strong>
+              <span class="arcade-description">Put our photo back together.</span>
+              <small class="arcade-record" id="arcadePuzzleBest">Best times: Easy — · Medium — · Hard —</small>
+            </button>
+            <button class="arcade-card" data-go="candy">
+              <span class="arcade-icon">🍬</span><strong>Candy Collector</strong>
+              <span class="arcade-description">Catch the candy, avoid the spooky stuff.</span>
+              <small class="arcade-record">Best: <b id="arcadeCandyBest">0</b></small>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="game" class="view">
+        <button data-go="shop">
+          ← Gift shop
+        </button>
+        <h2>
+          Trick or Treat?
+        </h2>
+        <p class="art">
+          👻
+        </p>
+        <h3>
+          “Trick or Treat, little pumpkin?”
+        </h3>
+        <button id="trick">
+          TRICK 👻
+        </button>
+        <button id="treat">
+          TREAT 🍬
+        </button>
+        <p id="result">
+          Choose your fate!
+        </p>
+      </section>
+      
+<section id="flappy" class="view flappy-view">
+  <div class="flappy-shell">
+    <button class="flappy-back" data-go="games">← Back to Arcade</button>
+    <p class="eyebrow">A TINY HALLOWEEN ARCADE</p>
+    <h2>Flappy SHAZEEE</h2>
+    <p class="flappy-subtitle">Flap, dodge Allyzah’s magic, and try not to get bonked.</p>
+    <div class="flappy-stage" id="flappyStage">
+      <canvas id="flappyCanvas" aria-label="Flappy SHAZEEE game. Tap, click, or press Space to flap."></canvas>
+      <div class="flappy-hud">
+        <div class="score-group"><div class="score-pill">SCORE <strong id="flappyScore">0</strong></div><div class="score-pill">BEST <strong id="flappyBest">0</strong></div></div>
+        <button id="flappyPause" class="pause-button" type="button">Ⅱ Pause</button>
+      </div>
+      <div class="flappy-hit" id="flappyHit">ARAY KO!!! 😭</div>
+      <div class="flappy-overlay" id="flappyOverlay">
+        <article class="flappy-card">
+          <div class="witch-badge">🧙🏻‍♀️</div>
+          <p class="eyebrow">ALLYZAH’S MOONLIT CHALLENGE</p>
+          <h3 id="flappyOverlayTitle">Flappy SHAZEEE</h3>
+          <p id="flappyOverlayText">Tap, click, or press Space to flap. Dodge the pumpkins, branches, barriers, and Allyzah’s sparkly beams!</p>
+          <button id="flappyStart" class="primary" type="button">Start flying ✨</button>
+        </article>
+      </div>
+    </div>
+    <p class="flappy-help">Tap or click the sky · press <kbd>Space</kbd> to flap · <kbd>P</kbd> to pause</p>
+    <p class="flappy-asset-note">Add your DP as <code>assets/photos/shazeee.jpg</code> to use it as the flying character.</p>
+  </div>
+</section>
+<section id="fruit" class="view mini-game-view fruit-view">
+  <div class="mini-game-shell">
+    <div class="mini-game-heading"><button class="mini-back" data-go="games">← Arcade</button><button class="mini-mute" id="fruitMute" type="button" aria-pressed="false">🔊 Sound on</button></div>
+    <p class="eyebrow">GAME 1 · SPOOKY NINJA SLAYER</p><h2>Spooky Ninja Slayer 🎃</h2>
+    <p class="mini-subtitle">Swipe across fruit and treats. Leave bombs and rotten pumpkins alone.</p>
+    <div class="mini-stage fruit-stage">
+      <div class="mini-hud">
+        <span>Score <b id="fruitScore">0</b></span><span>Best <b id="fruitBest">0</b></span><span>Lives <b id="fruitLives">❤️❤️❤️</b></span>
+        <button class="mini-pause" id="fruitPause" type="button">Ⅱ Pause</button>
+      </div>
+      <canvas id="fruitCanvas" width="480" height="700" aria-label="Swipe to slice flying Halloween treats"></canvas>
+      <div class="mini-overlay" id="fruitOverlay">
+        <article class="mini-card"><div class="mini-emoji" id="fruitOverlayEmoji">🍉🎃</div><p class="eyebrow" id="fruitOverlayKicker">READY TO SLICE?</p>
+          <h3 id="fruitOverlayTitle">Spooky Ninja Slayer</h3><p id="fruitOverlayText">Swipe with your finger or mouse. Slice treats and avoid bombs. You have three lives.</p>
+          <p class="mini-best-line">Personal best: <b id="fruitOverlayBest">0</b></p><p class="new-record" id="fruitNewRecord" hidden>NEW PERSONAL BEST! 🎉</p>
+          <button class="primary" id="fruitStart" type="button">Start slicing 🍬</button>
+        </article>
+      </div>
+      <div class="slice-trail" id="fruitTrail" aria-hidden="true"></div>
+    </div>
+    <p class="mini-help">Mouse: hold and drag · Touch: swipe across the game area</p>
+  </div>
+</section>
+
+<section id="puzzle" class="view mini-game-view puzzle-view">
+  <div class="mini-game-shell puzzle-shell">
+    <div class="mini-game-heading"><button class="mini-back" data-go="games">← Arcade</button><button class="mini-mute" id="puzzleMute" type="button" aria-pressed="false">🔊 Sound on</button></div>
+    <p class="eyebrow">GAME 2 · PIECE BY PIECE</p><h2>Puzzle 🧩</h2>
+    <p class="mini-subtitle">Choose one of our photos and a difficulty, then fit each jigsaw piece into its matching place.</p>
+    <div class="puzzle-settings">
+      <div class="puzzle-stats"><span>Time <b id="puzzleTimer">00:00</b></span><span>Best <b id="puzzleBestTime">—</b></span><button id="puzzleHint" type="button" aria-pressed="false" disabled>👁 Show photo</button><button id="puzzleEdges" type="button" aria-pressed="false" disabled>▦ Edge pieces</button><button id="puzzleLock" type="button" aria-pressed="false" disabled>🔒 Lock pieces</button></div>
+    </div>
+    <p class="puzzle-photo-status" id="puzzlePhotoStatus" aria-live="polite">Loading the couple photo…</p>
+    <div class="puzzle-board-wrap">
+      <div class="puzzle-board" id="puzzleBoard" aria-label="Puzzle board"></div>
+      <div class="puzzle-hint-overlay" id="puzzleHintOverlay" aria-hidden="true"><img id="puzzleHintImage" alt="Completed puzzle hint"></div>
+    </div>
+    <p class="puzzle-progress" id="puzzleProgress">Choose a difficulty and start when ready.</p>
+    <p class="mini-help puzzle-help">Drag pieces from the tray to the board · show the photo for reference · filter to edge pieces when you want</p>
+    <div class="puzzle-tray" id="puzzleTray" aria-label="Shuffled puzzle pieces"></div>
+    <div class="mini-overlay puzzle-overlay" id="puzzleOverlay">
+      <article class="mini-card"><div class="mini-emoji" id="puzzleOverlayEmoji">🧩❤️</div><p class="eyebrow" id="puzzleOverlayKicker">A LITTLE PIECE OF US</p>
+        <h3 id="puzzleOverlayTitle">Puzzle</h3><p id="puzzleOverlayText">Choose one of our photos and a difficulty, then fit the interlocking pieces together. There is no time limit.</p>
+        <div class="puzzle-photo-picker" role="group" aria-label="Choose our couple photo">
+          <button class="puzzle-photo-option is-selected" type="button" data-puzzle-photo="0" aria-pressed="true">
+            <img src="assets/photos/couple-puzzle-1.jpg" alt="Couple photo one" loading="lazy"><span>Photo 1</span>
+          </button>
+          <button class="puzzle-photo-option" type="button" data-puzzle-photo="1" aria-pressed="false">
+            <img src="assets/photos/couple-puzzle-2.jpg" alt="Couple photo two" loading="lazy"><span>Photo 2</span>
+          </button>
+        </div>
+        <div class="difficulty-picker" role="group" aria-label="Puzzle difficulty">
+          <button type="button" data-puzzle-size="3" aria-pressed="true">Easy · 3×3</button>
+          <button type="button" data-puzzle-size="4" aria-pressed="false">Medium · 4×4</button>
+          <button type="button" data-puzzle-size="5" aria-pressed="false">Hard · 5×5</button>
+        </div>
+        <p class="mini-best-line" id="puzzleOverlayRecord">Best time: —</p><p class="new-record" id="puzzleNewRecord" hidden>NEW PERSONAL BEST! ❤️</p>
+        <button class="primary" id="puzzleStart" type="button" disabled>Start the puzzle 🧩</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="candy" class="view mini-game-view candy-view">
+  <div class="mini-game-shell">
+    <div class="mini-game-heading"><button class="mini-back" data-go="games">← Arcade</button><button class="mini-mute" id="candyMute" type="button" aria-pressed="false">🔊 Sound on</button></div>
+    <p class="eyebrow">GAME 3 · CANDY CATCH</p><h2>Candy Collector 🍬</h2>
+    <p class="mini-subtitle">Move the basket to catch sweet treats. Let bombs and rotten snacks fall past.</p>
+    <div class="mini-stage candy-stage">
+      <div class="mini-hud">
+        <span>Score <b id="candyScore">0</b></span><span>Best <b id="candyBest">0</b></span><span>Time <b id="candyTime">00:00</b></span><span>Lives <b id="candyLives">❤️❤️❤️</b></span>
+        <button class="mini-pause" id="candyPause" type="button">Ⅱ Pause</button>
+      </div>
+      <canvas id="candyCanvas" width="480" height="700" aria-label="Move the basket to catch falling candy"></canvas>
+      <div class="mini-overlay" id="candyOverlay">
+        <article class="mini-card"><div class="mini-emoji" id="candyOverlayEmoji">🧺🍬</div><p class="eyebrow" id="candyOverlayKicker">READY, CANDY CATCHER?</p>
+          <h3 id="candyOverlayTitle">Candy Collector</h3><p id="candyOverlayText">Move the basket with your finger, mouse, or arrow keys. Collect treats and dodge bombs and rotten pumpkins. Keep playing until all three lives are gone.</p>
+          <p class="mini-best-line">Personal best: <b id="candyOverlayBest">0</b></p><p class="new-record" id="candyNewRecord" hidden>NEW PERSONAL BEST! 🎉</p>
+          <button class="primary" id="candyStart" type="button">Start collecting 🍭</button>
+        </article>
+      </div>
+    </div>
+    <p class="mini-help">Touch or mouse: move basket · Keyboard: ← →</p>
+  </div>
+</section>
+
+    <section id="room" class="view">
+        <button data-go="shop">
+          ← Gift shop
+        </button>
+        <h2>
+          The Childhood Room
+        </h2>
+        <article class="room">
+          <div class="art">
+            🧸　🎈　🐻　🍭　⭐
+          </div>
+          <p>
+            “Sometimes I wish I could travel back in time and give little Allyzah all the presents she deserved. I can't change those days, but I hope I can give you plenty of reasons to smile today.”
+          </p>
+          <b>
+            — Your Shazeee ❤️
+          </b>
+        </article>
+      </section>
+    </main>
+    <div id="modal" class="modal">
+      <div class="shade">
+      </div>
+      <article class="box">
+        <button id="close" class="close">
+          ×
+        </button>
+        <div id="emoji" class="art">
+        </div>
+        <h2 id="title">
+        </h2>
+        <div id="content">
+        </div>
+      </article>
+    </div>
+    <footer>
+      Made with a little moonlight and a lot of love ♥
+    </footer>
+    <script src="script.js">
+    </script>
+    <script src="flappy.js"></script>
+    <script src="fruit.js"></script>
+    <script src="puzzle.js"></script>
+    <script src="candy.js"></script>
+    <script src="games-menu.js"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+For Flappy SHAZEEE:
+- Active player face: assets/photos/shazeee.png
+- Optional full Batman cutout, kept for later: assets/photos/shazeee-batman.png
+- Allyzah’s separate witch portrait: assets/photos/allyzah-witch.png
+- Voice clips in assets/voices: aray-ko.mp3, bebe-naman.mp3, yamete-kudasai.mp3

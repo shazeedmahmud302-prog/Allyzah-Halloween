@@ -1,0 +1,38 @@
+
+.flappy-view{padding-top:22px}
+.flappy-shell{max-width:1000px;margin:0 auto}
+.flappy-back{display:block;margin:0 0 12px}
+.flappy-shell>.eyebrow{margin:0 0 5px}
+.flappy-shell>h2{font:600 clamp(34px,5vw,48px) Fredoka;margin:0;color:#fff2df}
+.flappy-subtitle{margin:5px 0 18px;color:#d9cbe6}
+.flappy-stage{width:min(100%,940px);aspect-ratio:16/9;min-height:300px;margin:0 auto;position:relative;overflow:hidden;border:2px solid #f6d59c88;border-radius:24px;background:#24173d;box-shadow:0 18px 50px #10091d77;touch-action:none;isolation:isolate}
+#flappyCanvas{display:block;width:100%;height:100%;touch-action:none}
+.flappy-hud{position:absolute;z-index:2;left:15px;right:15px;top:13px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.score-pill{padding:8px 13px;border:1px solid #fff7;border-radius:99px;background:#201431bb;color:#ffe4a9;font:700 11px "DM Sans";letter-spacing:.08em}
+.score-pill strong{font:600 19px Fredoka;margin-left:7px;color:#fff8e9}
+.pause-button{pointer-events:auto;padding:8px 12px;background:#291b43d9}
+.flappy-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:18px;background:#1b112b70;backdrop-filter:blur(3px)}
+.flappy-overlay.hidden{display:none}
+.flappy-card{width:min(430px,100%);padding:23px 25px;border:1px solid #fff7;border-radius:23px;background:linear-gradient(145deg,#513762f5,#302044f5);box-shadow:0 15px 40px #140d22aa;text-align:center}
+.witch-badge{font-size:45px;line-height:1.1;animation:witchBob 2.8s ease-in-out infinite}
+.flappy-card .eyebrow{margin:10px 0 5px;font-size:9px}
+.flappy-card h3{font:600 clamp(26px,4vw,34px) Fredoka;margin:4px 0 8px;color:#fff1dc}
+.flappy-card p:not(.eyebrow){color:#e8dcf0;font-size:13px;line-height:1.6;margin:8px auto 15px}
+.flappy-card .primary{font-size:14px;padding:12px 20px}
+.flappy-help,.flappy-asset-note{margin:10px 4px 0;color:#cbbdd8;font-size:12px}
+.flappy-asset-note{font-size:10px;color:#aa9cb8}
+.flappy-asset-note code{color:#f3cf91}
+.flappy-help kbd{padding:2px 6px;border:1px solid #ffffff40;border-radius:5px;background:#ffffff12;color:#fff1dc;font:11px "DM Sans"}
+.flappy-hit{position:absolute;z-index:5;left:50%;top:35%;transform:translate(-50%,-50%) scale(.2) rotate(-10deg);opacity:0;pointer-events:none;white-space:nowrap;color:#fff3e1;-webkit-text-stroke:1px #542d63;text-shadow:0 4px 0 #e97b9d,0 0 25px #ffb4c9;font:700 clamp(32px,7vw,66px) Fredoka}
+.flappy-hit.show{animation:arayPop .8s cubic-bezier(.2,1.5,.4,1) both}
+.flappy-stage.shake{animation:stageShake .42s linear}
+.flappy-stage.flash::after{content:"";position:absolute;inset:0;z-index:3;background:#fff1eeaa;pointer-events:none;animation:flashOut .38s ease-out forwards}
+@keyframes arayPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-10deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(4deg)}55%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-2deg)}100%{opacity:0;transform:translate(-50%,-65%) scale(.9)}}
+@keyframes stageShake{0%,100%{translate:0 0}20%{translate:-9px 2px}40%{translate:8px -2px}60%{translate:-6px 1px}80%{translate:5px 0}}
+@keyframes flashOut{from{opacity:1}to{opacity:0}}
+@keyframes witchBob{50%{transform:translateY(-5px) rotate(3deg)}}
+@media(max-width:650px){.flappy-view{padding:16px 12px 30px}.flappy-stage{min-height:0;border-radius:17px}.flappy-card{padding:17px 16px}.flappy-card p:not(.eyebrow){font-size:12px}.flappy-hud{left:9px;right:9px;top:8px}.score-pill{padding:6px 9px}.pause-button{padding:6px 9px;font-size:11px}.flappy-help{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.witch-badge{animation:none}.flappy-stage.shake{animation:none}}
+
+.score-group{display:flex;gap:8px;align-items:center}
+@media(max-width:650px){.score-group{gap:5px}.score-pill{font-size:9px}.score-pill strong{font-size:16px}}
