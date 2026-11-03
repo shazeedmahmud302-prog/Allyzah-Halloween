@@ -21,10 +21,8 @@
 
   const voices = {
     aray: new Audio("assets/voices/Aray ko.m4a"),
-    bebe: new Audio("assets/voices/Bebe naman.m4a"),
     noMommy: new Audio("assets/voices/No mommy no.m4a"),
     shibal: new Audio("assets/voices/Shibal saekkiya.m4a"),
-    yamete: new Audio("assets/voices/Yamete kudasai.m4a")
   };
   Object.values(voices).forEach(voice => { voice.preload = "none"; });
 
@@ -293,8 +291,7 @@
         beam.targetX = player.x;
         beam.targetY = player.y;
         if (beam.timer > (H > W ? 1.05 : .78)) {
-          const beamVoices = ["noMommy", "yamete", "bebe"];
-          playVoice(beamVoices[Math.floor(Math.random() * beamVoices.length)]);
+          playVoice("noMommy");
           beam.state = "fire";
           beam.timer = 0;
           const dx = beam.targetX - beam.x;
