@@ -23,21 +23,4 @@
   }, true);
   update();
 
-  // Preserve Flappy's original mechanics while celebrating its existing best-score save.
-  let seenFlappyBest = Number(read("flappy-shazeee-best", "0"));
-  setInterval(() => {
-    const current = Number(read("flappy-shazeee-best", "0"));
-    if (current > seenFlappyBest) {
-      seenFlappyBest = current;
-      update();
-      const flappy = document.querySelector("#flappy");
-      if (flappy && flappy.classList.contains("active")) {
-        const toast = document.createElement("div");
-        toast.className = "flappy-record-toast";
-        toast.textContent = "NEW PERSONAL BEST! 🎉";
-        flappy.appendChild(toast);
-        setTimeout(() => toast.remove(), 2200);
-      }
-    }
-  }, 250);
 })();

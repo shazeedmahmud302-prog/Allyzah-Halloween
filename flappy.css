@@ -19,6 +19,8 @@
 .flappy-card h3{font:600 clamp(26px,4vw,34px) Fredoka;margin:4px 0 8px;color:#fff1dc}
 .flappy-card p:not(.eyebrow){color:#e8dcf0;font-size:13px;line-height:1.6;margin:8px auto 15px}
 .flappy-card .primary{font-size:14px;padding:12px 20px}
+.flappy-new-record{display:inline-block;margin:7px auto 13px;padding:8px 13px;border:1px solid #ffe7a3;border-radius:999px;background:#f4cf8324;color:#ffe18f;font:600 14px Fredoka,sans-serif;box-shadow:0 0 16px #ffd97855;animation:recordPop .45s ease-out both}
+.flappy-new-record[hidden]{display:none}
 .flappy-help,.flappy-asset-note{margin:10px 4px 0;color:#cbbdd8;font-size:12px}
 .flappy-asset-note{font-size:10px;color:#aa9cb8}
 .flappy-asset-note code{color:#f3cf91}

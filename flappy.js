@@ -50,6 +50,7 @@
     overlay: document.querySelector("#flappyOverlay"),
     title: document.querySelector("#flappyOverlayTitle"),
     text: document.querySelector("#flappyOverlayText"),
+    newRecord: document.querySelector("#flappyNewRecord"),
     start: document.querySelector("#flappyStart"),
     pause: document.querySelector("#flappyPause"),
     hit: document.querySelector("#flappyHit")
@@ -61,6 +62,7 @@
   let elapsed = 0;
   let score = 0;
   let bestScore = Number(localStorage.getItem("flappy-shazeee-best") || 0);
+  let bestAtRunStart = bestScore;
   ui.best.textContent = String(bestScore);
   let nextSpawn = 1.2;
   let nextBeam = 4.2;
@@ -121,6 +123,7 @@
   }
 
   function resetGame() {
+    bestAtRunStart = bestScore;
     elapsed = 0;
     score = 0;
     obstacleNumber = 0;
@@ -133,6 +136,7 @@
     ui.pause.textContent = "Ⅱ Pause";
     ui.hit.classList.remove("show");
     ui.stage.classList.remove("shake", "flash");
+    ui.newRecord.hidden = true;
   }
 
   function startGame() {
@@ -380,6 +384,9 @@
   function collide(kind = "obstacle") {
     if (state !== "running") return;
     state = "over";
+    const earnedNewRecord = bestScore > bestAtRunStart;
+    ui.newRecord.hidden = !earnedNewRecord;
+    if (earnedNewRecord) document.dispatchEvent(new CustomEvent("arcade:record", { detail: { game: "flappy", score: bestScore } }));
     const gameOverVoices = ["shibal", "aray"];
     playVoice(gameOverVoices[Math.floor(Math.random() * gameOverVoices.length)]);
     ui.stage.classList.remove("shake", "flash");
@@ -1026,6 +1033,15 @@
     ctx.quadraticCurveTo(58 * s, 1 * s, 54 * s, -3 * s);
     ctx.closePath();
     ctx.fill();
+    ctx.strokeStyle = "#f7ce61";
+    ctx.lineWidth = 2.2 * s;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(58 * s, -11 * s);
+    ctx.quadraticCurveTo(64 * s, -16 * s, 70 * s, -10 * s);
+    ctx.moveTo(57 * s, -5 * s);
+    ctx.lineTo(61 * s, -2 * s);
+    ctx.stroke();
     ctx.restore();
   }
 

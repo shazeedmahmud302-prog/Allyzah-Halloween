@@ -338,19 +338,3 @@
   pointer-events:none
 }
 
-.flappy-record-toast {
-  position:fixed;
-  z-index:999;
-  top:22px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:11px 18px;
-  border:1px solid #ffe7a3;
-  border-radius:999px;
-  background:#38264ff2;
-  color:#ffe18f;
-  font:600 16px Fredoka,sans-serif;
-  box-shadow:0 0 20px #ffd97899;
-  animation:recordPop .55s ease-out;
-  pointer-events:none
-}
