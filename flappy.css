@@ -31,8 +31,22 @@
 @keyframes stageShake{0%,100%{translate:0 0}20%{translate:-9px 2px}40%{translate:8px -2px}60%{translate:-6px 1px}80%{translate:5px 0}}
 @keyframes flashOut{from{opacity:1}to{opacity:0}}
 @keyframes witchBob{50%{transform:translateY(-5px) rotate(3deg)}}
-@media(max-width:650px){.flappy-view{padding:16px 12px 30px}.flappy-stage{min-height:0;border-radius:17px}.flappy-card{padding:17px 16px}.flappy-card p:not(.eyebrow){font-size:12px}.flappy-hud{left:9px;right:9px;top:8px}.score-pill{padding:6px 9px}.pause-button{padding:6px 9px;font-size:11px}.flappy-help{font-size:10px}}
+@media(max-width:650px){
+  .flappy-view{margin-inline:-18px;padding:16px 14px 30px;min-width:0}
+  .flappy-shell{width:100%;min-width:0}
+  .flappy-stage{width:calc(100% + 28px);margin:0 0 0 -14px;min-height:0;border-radius:12px;aspect-ratio:16/9}
+  #flappyCanvas{width:100%;height:100%}
+  .flappy-card{width:100%;max-width:390px;padding:16px 14px}
+  .flappy-card p:not(.eyebrow){font-size:12px;line-height:1.45}
+  .flappy-hud{left:7px;right:7px;top:7px;align-items:flex-start}
+  .score-group{gap:4px}
+  .score-pill{padding:4px 7px;font-size:8px;letter-spacing:.04em;white-space:nowrap}
+  .score-pill strong{font-size:14px;margin-left:3px}
+  .pause-button{margin:0;padding:4px 7px;font-size:10px;white-space:nowrap}
+  .flappy-help,.flappy-asset-note{padding-inline:2px;line-height:1.5}
+  .flappy-help{font-size:10px}
+}
 @media(prefers-reduced-motion:reduce){.witch-badge{animation:none}.flappy-stage.shake{animation:none}}
 
 .score-group{display:flex;gap:8px;align-items:center}
-@media(max-width:650px){.score-group{gap:5px}.score-pill{font-size:9px}.score-pill strong{font-size:16px}}
+@media(max-width:650px){.score-group{gap:4px}.score-pill{font-size:8px}.score-pill strong{font-size:14px}}
