@@ -275,20 +275,22 @@
     obstacles = obstacles.filter(o => o.x > -150);
 
     if (elapsed >= nextBeam) {
-      const source = witchPosition();
-      beams.push({ state: "aim", timer: 0, x: source.x + 51, y: source.y + 8, targetX: player.x, targetY: player.y });
+      const tip = witchWandTip();
+      beams.push({ state: "aim", timer: 0, x: tip.x, y: tip.y, targetX: player.x, targetY: player.y });
       nextBeam = elapsed + (H > W ? 9.2 : 7.1) + Math.random() * (H > W ? 2 : 1.6);
     }
 
     for (const beam of beams) {
       beam.timer += dt;
       if (beam.state === "aim") {
-        const source = witchPosition();
-        beam.x = source.x + 51;
-        beam.y = source.y + 8;
+        const tip = witchWandTip();
+        beam.x = tip.x;
+        beam.y = tip.y;
         beam.targetX = player.x;
         beam.targetY = player.y;
         if (beam.timer > (H > W ? 1.05 : .78)) {
+          const beamVoices = ["noMommy", "yamete", "bebe"];
+          playVoice(beamVoices[Math.floor(Math.random() * beamVoices.length)]);
           beam.state = "fire";
           beam.timer = 0;
           const dx = beam.targetX - beam.x;
@@ -308,15 +310,12 @@
         beam.x += beam.vx * dt;
         beam.y += beam.vy * dt;
         beam.traveled += beam.speed * dt;
-        const tailX = beam.startX;
-        const tailY = beam.startY;
+        const trailLength = Math.min(beam.traveled, 125);
+        const tailX = beam.x - beam.dirX * trailLength;
+        const tailY = beam.y - beam.dirY * trailLength;
         const distanceToPlayer = pointToSegmentDistance(player.x, player.y, tailX, tailY, beam.x, beam.y);
-        if (!beam.voicePlayed && distanceToPlayer < 100) {
-          playVoice("bebe");
-          beam.voicePlayed = true;
-        }
         if (distanceToPlayer < player.radius + 9) {
-          collide("beam", beam.voicePlayed);
+          collide("beam");
         }
       }
     }
@@ -349,7 +348,6 @@
           Math.min(topClearance, bottomClearance) >= 0 &&
           Math.min(topClearance, bottomClearance) < 25) {
         o.nearMissChecked = true;
-        if (Math.random() < .35) playVoice("yamete");
       }
       return;
     }
@@ -363,7 +361,6 @@
         collide("obstacle");
       } else if (!o.nearMissChecked && distance < hitDistance + 18) {
         o.nearMissChecked = true;
-        if (Math.random() < .3) playVoice("yamete");
       }
       return;
     }
@@ -378,21 +375,13 @@
         Math.abs(dx) < hitX + 18 &&
         Math.abs(dy) < hitY + 18) {
       o.nearMissChecked = true;
-      if (Math.random() < .3) playVoice("yamete");
     }
   }
-  function collide(kind = "obstacle", beamVoicePlayed = false) {
+  function collide(kind = "obstacle") {
     if (state !== "running") return;
     state = "over";
-    const dramatic = score >= 8 || Math.abs(player.vy) > 520 || Math.random() < .18;
-    if (kind === "beam") {
-      if (!beamVoicePlayed) playVoice("bebe");
-    } else if (dramatic) {
-      const dramaticVoices = ["yamete", "noMommy", "shibal"];
-      playVoice(dramaticVoices[Math.floor(Math.random() * dramaticVoices.length)]);
-    } else {
-      playVoice("aray");
-    }
+    const gameOverVoices = ["shibal", "aray"];
+    playVoice(gameOverVoices[Math.floor(Math.random() * gameOverVoices.length)]);
     ui.stage.classList.remove("shake", "flash");
     void ui.stage.offsetWidth;
     ui.stage.classList.add("shake", "flash");
@@ -602,6 +591,11 @@
 
   function witchPosition() {
     return { x: W - (H > W ? 65 : 135), y: H * .35 + Math.sin(elapsed * 1.25) * Math.min(35, H * .035) };
+  }
+
+  function witchWandTip() {
+    const witch = witchPosition();
+    return { x: witch.x + 54, y: witch.y + 4 };
   }
 
   function drawWitch() {
@@ -817,8 +811,9 @@
         ctx.fill();
         ctx.restore();
       } else {
-        const tailX = beam.x - beam.dirX * 125;
-        const tailY = beam.y - beam.dirY * 125;
+        const trailLength = Math.min(beam.traveled, 125);
+        const tailX = beam.x - beam.dirX * trailLength;
+        const tailY = beam.y - beam.dirY * trailLength;
         ctx.save();
         ctx.shadowColor = "#ffdd86";
         ctx.shadowBlur = 18;
