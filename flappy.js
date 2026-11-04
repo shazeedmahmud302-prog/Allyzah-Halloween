@@ -20,9 +20,12 @@
   witchPhoto.src = "assets/photos/allyzah-witch.png";
 
   const voices = {
+    noMommy: new Audio("assets/voices/No mommy no.m4a"),
     bebeNaman2: new Audio("assets/voices/Bebe naman 2.m4a"),
     ayokoNa: new Audio("assets/voices/Ayoko na.m4a"),
     kuninMoNaAko: new Audio("assets/voices/Kunin mo na ako.m4a"),
+    aray: new Audio("assets/voices/Aray ko.m4a"),
+    shibal: new Audio("assets/voices/Shibal saekkiya.m4a"),
     sakitNaman: new Audio("assets/voices/Sakit naman.m4a"),
   };
   Object.values(voices).forEach(voice => { voice.preload = "none"; });
@@ -292,7 +295,7 @@
         beam.targetX = player.x;
         beam.targetY = player.y;
         if (beam.timer > (H > W ? 1.05 : .78)) {
-          const beamVoices = ["bebeNaman2", "ayokoNa", "kuninMoNaAko"];
+          const beamVoices = ["noMommy", "bebeNaman2", "ayokoNa", "kuninMoNaAko"];
           playVoice(beamVoices[Math.floor(Math.random() * beamVoices.length)]);
           beam.state = "fire";
           beam.timer = 0;
@@ -386,7 +389,8 @@
     const earnedNewRecord = bestScore > bestAtRunStart;
     ui.newRecord.hidden = !earnedNewRecord;
     if (earnedNewRecord) document.dispatchEvent(new CustomEvent("arcade:record", { detail: { game: "flappy", score: bestScore } }));
-    playVoice("sakitNaman");
+    const gameOverVoices = ["aray", "shibal", "sakitNaman"];
+    playVoice(gameOverVoices[Math.floor(Math.random() * gameOverVoices.length)]);
     ui.stage.classList.remove("shake", "flash");
     void ui.stage.offsetWidth;
     ui.stage.classList.add("shake", "flash");
