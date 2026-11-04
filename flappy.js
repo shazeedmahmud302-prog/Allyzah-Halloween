@@ -24,15 +24,17 @@
     bebeNaman2: new Audio("assets/voices/Bebe naman 2.m4a"),
     ayokoNa: new Audio("assets/voices/Ayoko na.m4a"),
     kuninMoNaAko: new Audio("assets/voices/Kunin mo na ako.m4a"),
+    justGiveMeAReason: new Audio("assets/voices/Just give me a reason.m4a"),
     aray: new Audio("assets/voices/Aray ko.m4a"),
     shibal: new Audio("assets/voices/Shibal saekkiya.m4a"),
     sakitNaman: new Audio("assets/voices/Sakit naman.m4a"),
   };
   Object.values(voices).forEach(voice => { voice.preload = "none"; });
 
-  function playVoice(name) {
+  function playVoice(name, { skipIfPlaying = false } = {}) {
     const clip = voices[name];
-    if (!clip) return;
+    if (!clip) return false;
+    if (skipIfPlaying && Object.values(voices).some(voice => !voice.paused && !voice.ended)) return false;
     Object.values(voices).forEach(other => {
       if (other !== clip) {
         other.pause();
@@ -43,6 +45,7 @@
       clip.currentTime = 0;
       const playback = clip.play();
       if (playback) playback.catch(() => {});
+      return true;
     } catch (_) {}
   }
   const ui = {
@@ -295,8 +298,8 @@
         beam.targetX = player.x;
         beam.targetY = player.y;
         if (beam.timer > (H > W ? 1.05 : .78)) {
-          const beamVoices = ["noMommy", "bebeNaman2", "ayokoNa", "kuninMoNaAko"];
-          playVoice(beamVoices[Math.floor(Math.random() * beamVoices.length)]);
+          const beamVoices = ["noMommy", "bebeNaman2", "ayokoNa", "kuninMoNaAko", "justGiveMeAReason"];
+          playVoice(beamVoices[Math.floor(Math.random() * beamVoices.length)], { skipIfPlaying: true });
           beam.state = "fire";
           beam.timer = 0;
           const dx = beam.targetX - beam.x;

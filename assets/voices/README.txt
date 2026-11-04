@@ -1,10 +1,11 @@
 Flappy Shazeee voice files
 
-Beam launch voice rotation (random):
+Beam voice rotation (random; a new beam voice waits until the current voice ends):
 - No mommy no.m4a
-- Bebe naman 2.m4a (replacement for the old Bebe naman clip)
+- Bebe naman 2.m4a
 - Ayoko na.m4a
 - Kunin mo na ako.m4a
+- Just give me a reason.m4a
 
 Game over voice rotation (random):
 - Aray ko.m4a
