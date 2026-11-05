@@ -338,7 +338,16 @@
 }
 
 /* Focused landscape play mode for phones and tablets. */
-.sb-landscape { white-space: nowrap; }
+.sb-landscape {
+  min-width: 42px;
+  min-height: 40px;
+  padding: 5px 9px;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 20px;
+}
+.sb-landscape:hover { border-color: transparent; background: #ffffff12; box-shadow: none; }
 .save-bebe-shell.is-immersive {
   position: fixed;
   z-index: 9999;
@@ -359,7 +368,7 @@
 .is-immersive > h2,
 .is-immersive > .sb-subtitle,
 .is-immersive > .sb-help { display: none; }
-.is-immersive .save-bebe-topbar { flex: 0 0 auto; align-items: center; margin-bottom: 6px; }
+.is-immersive .save-bebe-topbar { display: none; }
 .is-immersive .sb-stage { flex: 1 1 auto; width: 100%; min-height: 0; margin: 0; border-radius: 13px; }
 .is-immersive #sbCanvas { width: 100%; height: 100%; aspect-ratio: auto; }
 .is-immersive .sb-controls {
@@ -378,23 +387,72 @@
 .is-immersive .sb-hud { top: 8px; left: 50%; width: calc(100% - 20px); }
 .is-immersive .sb-hud > span,
 .is-immersive .sb-hud > button { padding: 7px 11px; font-size: 13px; }
+.is-immersive .sb-hud > button { display: none; }
 .is-immersive .sb-progress-track { bottom: 12px; left: 14px; right: 62px; height: 10px; }
 .is-immersive .sb-progress-text { bottom: 8px; right: 17px; font-size: 12px; }
-.sb-landscape-exit { display: none; }
-.is-immersive .sb-landscape { border-color: #ffe19a; background: #66466f; }
-@media (orientation: portrait) and (max-width: 900px) {
+.sb-game-menu-toggle,
+.sb-game-menu { display: none; }
+.is-immersive .sb-game-menu-toggle {
+  position: absolute;
+  z-index: 8;
+  top: 7px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff3dc;
+  font: 700 30px/1 'DM Sans', sans-serif;
+  box-shadow: none;
+  text-shadow: 0 1px 7px #211632;
+  -webkit-tap-highlight-color: transparent;
+}
+.is-immersive .sb-game-menu-toggle:hover,
+.is-immersive .sb-game-menu-toggle:active { border: 0; background: #21163255; box-shadow: none; transform: none; }
+.is-immersive .sb-game-menu {
+  position: absolute;
+  z-index: 9;
+  top: 52px;
+  right: 12px;
+  display: grid;
+  gap: 5px;
+  min-width: 176px;
+  padding: 8px;
+  border: 1px solid #ffe7b477;
+  border-radius: 14px;
+  background: #211832f2;
+  box-shadow: 0 8px 24px #10091dcc;
+  text-align: left;
+  backdrop-filter: blur(9px);
+}
+.is-immersive .sb-game-menu[hidden] { display: none !important; }
+.is-immersive .sb-game-menu button {
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #fff1d8;
+  font: 600 14px 'DM Sans', sans-serif;
+  text-align: left;
+  box-shadow: none;
+}
+.is-immersive .sb-game-menu button:hover,
+.is-immersive .sb-game-menu button:active { background: #ffffff18; transform: none; }
+@media (max-aspect-ratio: 1/1) and (max-width: 900px) {
   .save-bebe-shell.is-immersive {
     top: 50%; left: 50%; right: auto; bottom: auto;
-    width: 100dvh; height: 100vw;
+    width: 100vh; width: 100dvh; height: 100vw;
     min-height: 0; transform: translate(-50%, -50%) rotate(90deg);
     transform-origin: center;
   }
 }
 @media (max-width: 600px) {
-  .is-immersive .save-bebe-topbar { gap: 6px; }
-  .is-immersive .sb-back,
-  .is-immersive .sb-mute,
-  .is-immersive .sb-landscape { min-height: 36px; padding: 6px 10px; font-size: 12px; }
   .is-immersive .sb-controls button { width: 62px; height: 56px; }
   .is-immersive .sb-controls button[data-sb-control="jump"] { width: 122px; height: 60px; }
 }

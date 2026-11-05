@@ -186,7 +186,7 @@
   <div class="save-bebe-shell">
     <div class="save-bebe-topbar">
       <button class="sb-back" type="button" data-go="games">← Back to Arcade</button>
-      <button class="sb-landscape" id="sbLandscape" type="button" aria-label="Enter full-screen landscape play" aria-pressed="false">⛶ Landscape</button>
+      <button class="sb-landscape" id="sbLandscape" type="button" title="Play full screen in landscape" aria-label="Enter full-screen landscape play" aria-pressed="false">⛶</button>
       <button class="sb-mute" id="sbMute" type="button" aria-pressed="false">🔊 Sound on</button>
     </div>
     <p class="eyebrow">A MOONLIT RESCUE ADVENTURE</p>
@@ -194,6 +194,12 @@
     <p class="sb-subtitle">One little adventure to find my favourite person.</p>
     <div class="sb-stage" id="sbStage">
       <canvas id="sbCanvas" width="960" height="600" aria-label="Save My Bebe platform game. Use A and D or arrow keys to move, Space or Up to jump. On touch screens use the buttons below."></canvas>
+      <button class="sb-game-menu-toggle" id="sbGameMenuToggle" type="button" aria-label="Game options" aria-expanded="false" aria-controls="sbGameMenu">⋮</button>
+      <div class="sb-game-menu" id="sbGameMenu" hidden>
+        <button type="button" data-sb-menu-action="pause">Ⅱ Pause</button>
+        <button type="button" data-sb-menu-action="sound" id="sbMenuSound">🔊 Sound on</button>
+        <button type="button" data-sb-menu-action="exit">↙ Exit landscape</button>
+      </div>
       <div class="sb-hud">
         <span>Score <b id="sbScore">0</b></span>
         <span>Hearts <b id="sbHearts">0</b></span>

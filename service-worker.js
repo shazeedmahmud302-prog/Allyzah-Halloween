@@ -1,4 +1,4 @@
-const CACHE_NAME = "allyzah-halloween-offline-v6";
+const CACHE_NAME = "allyzah-halloween-offline-v7";
 const APP_SHELL = [
   "./", "./index.html", "./manifest.webmanifest",
   "./style.css", "./flappy.css", "./games.css", "./fruit.css", "./puzzle.css", "./candy.css",

@@ -25,8 +25,8 @@
   }
   Object.entries(source).forEach(([key, file]) => load(key, file));
 
-  const ui = Object.fromEntries(["overlay", "kicker", "title", "text", "start", "pause", "mute", "landscape", "score", "hearts", "lives", "time", "bestScore", "bestHearts", "bestTime", "hitFlash", "progress", "progressText", "introCouple", "reunionArt"].map(key => [key, document.getElementById({
-    overlay:"sbOverlay", kicker:"sbKicker", title:"sbOverlayTitle", text:"sbOverlayText", start:"sbStart", pause:"sbPause", mute:"sbMute", landscape:"sbLandscape", score:"sbScore", hearts:"sbHearts", lives:"sbLives", time:"sbTime", bestScore:"sbBestScore", bestHearts:"sbBestHearts", bestTime:"sbBestTime", hitFlash:"sbHitFlash", progress:"sbProgress", progressText:"sbProgressText", introCouple:"sbIntroCouple", reunionArt:"sbReunionArt"
+  const ui = Object.fromEntries(["overlay", "kicker", "title", "text", "start", "pause", "mute", "landscape", "menuToggle", "menu", "menuSound", "score", "hearts", "lives", "time", "bestScore", "bestHearts", "bestTime", "hitFlash", "progress", "progressText", "introCouple", "reunionArt"].map(key => [key, document.getElementById({
+    overlay:"sbOverlay", kicker:"sbKicker", title:"sbOverlayTitle", text:"sbOverlayText", start:"sbStart", pause:"sbPause", mute:"sbMute", landscape:"sbLandscape", menuToggle:"sbGameMenuToggle", menu:"sbGameMenu", menuSound:"sbMenuSound", score:"sbScore", hearts:"sbHearts", lives:"sbLives", time:"sbTime", bestScore:"sbBestScore", bestHearts:"sbBestHearts", bestTime:"sbBestTime", hitFlash:"sbHitFlash", progress:"sbProgress", progressText:"sbProgressText", introCouple:"sbIntroCouple", reunionArt:"sbReunionArt"
   }[key])]));
   const keys = { score:"save-my-bebe-best-score", hearts:"save-my-bebe-best-hearts", time:"save-my-bebe-best-time", mute:"save-my-bebe-muted" };
   const read = key => { try { return Number(localStorage.getItem(key) || 0); } catch (_) { return 0; } };
@@ -144,7 +144,24 @@
   }
   ui.start.addEventListener("click",start);ui.pause.addEventListener("click",pause);
   const shell=section.querySelector(".save-bebe-shell");
+  function closeGameMenu(){ui.menu.hidden=true;ui.menuToggle.setAttribute("aria-expanded","false");}
+  function toggleSound(){
+    muted=!muted;try{localStorage.setItem(keys.mute,String(muted));}catch(_){}
+    ui.mute.textContent=muted?"🔇 Sound off":"🔊 Sound on";ui.menuSound.textContent=muted?"🔇 Sound off":"🔊 Sound on";
+    ui.mute.setAttribute("aria-pressed",String(muted));ui.menuSound.setAttribute("aria-pressed",String(muted));
+    if(!muted)sound("heart");
+  }
+  ui.menuToggle.addEventListener("click",()=>{
+    const open=ui.menu.hidden;ui.menu.hidden=!open;ui.menuToggle.setAttribute("aria-expanded",String(open));
+    if(open)ui.menu.querySelector('[data-sb-menu-action="pause"]').textContent=state==="paused"?"▶ Resume":"Ⅱ Pause";
+  });
+  ui.menu.addEventListener("click",e=>{
+    const action=e.target.closest("[data-sb-menu-action]")?.dataset.sbMenuAction;if(!action)return;
+    closeGameMenu();if(action==="pause")pause();else if(action==="sound")toggleSound();else if(action==="exit")leaveImmersive();
+  });
+  document.addEventListener("pointerdown",e=>{if(!ui.menu.hidden&&!ui.menu.contains(e.target)&&!ui.menuToggle.contains(e.target))closeGameMenu();});
   function setImmersive(on){
+    closeGameMenu();
     shell.classList.toggle("is-immersive",on);section.classList.toggle("is-immersive",on);document.body.classList.toggle("sb-immersive-open",on);
     ui.landscape.setAttribute("aria-pressed",String(on));ui.landscape.setAttribute("aria-label",on?"Exit full-screen play":"Enter full-screen landscape play");ui.landscape.textContent=on?"⤢ Exit":"⛶ Landscape";
     requestAnimationFrame(resize);
@@ -162,8 +179,9 @@
   }
   ui.landscape.addEventListener("click",()=>shell.classList.contains("is-immersive")?leaveImmersive():enterImmersive());
   document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&shell.classList.contains("is-immersive"))setImmersive(false);});
-  ui.mute.textContent=muted?"🔇 Sound off":"🔊 Sound on";ui.mute.setAttribute("aria-pressed",String(muted));
-  ui.mute.addEventListener("click",()=>{muted=!muted;try{localStorage.setItem(keys.mute,String(muted));}catch(_){}ui.mute.textContent=muted?"🔇 Sound off":"🔊 Sound on";ui.mute.setAttribute("aria-pressed",String(muted));if(!muted)sound("heart");});
+  ui.mute.textContent=muted?"🔇 Sound off":"🔊 Sound on";ui.menuSound.textContent=ui.mute.textContent;
+  ui.mute.setAttribute("aria-pressed",String(muted));ui.menuSound.setAttribute("aria-pressed",String(muted));
+  ui.mute.addEventListener("click",toggleSound);
   function jump(){if(state!=="running"||player.jumps>=2)return;player.vy=player.jumps?-570:-650;player.jumps++;player.coyote=0;burst(player.x+20,player.y+player.h,"#ecd1ff",5);sound("jump");}
   document.querySelectorAll("[data-sb-control]").forEach(button=>{
     const action=button.dataset.sbControl;
