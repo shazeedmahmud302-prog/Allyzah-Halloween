@@ -358,5 +358,11 @@
     <script src="puzzle.js"></script>
     <script src="candy.js"></script>
     <script src="games-menu.js"></script>
-  </body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {});
+        });
+      }
+    </script>  </body>
 </html>
