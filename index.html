@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="fruit.css">
     <link rel="stylesheet" href="puzzle.css">
     <link rel="stylesheet" href="candy.css">
+    <link rel="stylesheet" href="save-my-bebe.css">
   </head>
   <body>
     <svg class="night-scenery" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -150,7 +151,7 @@
           <button class="arcade-back" data-go="shop">← Gift shop</button>
           <p class="eyebrow">A LITTLE MOONLIT ARCADE</p>
           <h2>Pick a game, bebe 🎮</h2>
-          <p class="arcade-intro">Four separate little challenges. Play whichever one you like.</p>
+          <p class="arcade-intro">Five separate little challenges. Play whichever one you like.</p>
           <div class="arcade-grid">
             <button class="arcade-card" data-go="flappy">
               <span class="arcade-icon">🦇</span><strong>Flappy SHAZEEE</strong>
@@ -172,10 +173,55 @@
               <span class="arcade-description">Catch the candy, avoid the spooky stuff.</span>
               <small class="arcade-record">Best: <b id="arcadeCandyBest">0</b></small>
             </button>
+            <button class="arcade-card" data-go="saveMyBebe">
+              <span class="arcade-icon">💜</span><strong>Save My Bebe</strong>
+              <span class="arcade-description">Jump through the moonlit world and find Allyzah.</span>
+              <small class="arcade-record">Best <b id="arcadeSaveBebeBest">0</b> · Hearts <b id="arcadeSaveBebeHearts">0</b> · Time <b id="arcadeSaveBebeTime">—</b></small>
+            </button>
           </div>
         </div>
       </section>
 
+      <section id="saveMyBebe" class="view save-bebe-view">
+  <div class="save-bebe-shell">
+    <div class="save-bebe-topbar">
+      <button class="sb-back" type="button" data-go="games">← Back to Arcade</button>
+      <button class="sb-mute" id="sbMute" type="button" aria-pressed="false">🔊 Sound on</button>
+    </div>
+    <p class="eyebrow">A MOONLIT RESCUE ADVENTURE</p>
+    <h2>Save My Bebe ❤️</h2>
+    <p class="sb-subtitle">One little adventure to find my favourite person.</p>
+    <div class="sb-stage" id="sbStage">
+      <canvas id="sbCanvas" width="960" height="600" aria-label="Save My Bebe platform game. Use A and D or arrow keys to move, Space or Up to jump. On touch screens use the buttons below."></canvas>
+      <div class="sb-hud">
+        <span>Score <b id="sbScore">0</b></span>
+        <span>Hearts <b id="sbHearts">0</b></span>
+        <span>Lives <b id="sbLives">❤️❤️❤️</b></span>
+        <span>Time <b id="sbTime">00:00</b></span>
+        <button id="sbPause" type="button">Ⅱ Pause</button>
+      </div>
+      <div class="sb-overlay" id="sbOverlay">
+        <article class="sb-card">
+          <div class="sb-card-art"><div class="sb-couple-mini" id="sbIntroCouple"><img src="assets/save-my-bebe/sprites/shazeee-idle.png" alt=""><span>♡</span><img src="assets/save-my-bebe/sprites/allyzah-idle.png" alt=""></div><img id="sbReunionArt" src="assets/save-my-bebe/sprites/reunion-hug.png" alt="Shazeee and Allyzah hugging" hidden></div>
+          <p class="eyebrow" id="sbKicker">A LITTLE HALLOWEEN ADVENTURE</p>
+          <h3 id="sbOverlayTitle">SAVE MY BEBE ❤️</h3>
+          <p id="sbOverlayText">One little adventure to find my favourite person. Double-jump across the moonlit platforms, collect hearts, and dodge the silly spooky things.</p>
+          <p class="sb-record-line">Best score <b id="sbBestScore">0</b> · Most hearts <b id="sbBestHearts">0</b> · Fastest <b id="sbBestTime">—</b></p>
+          <button class="primary" id="sbStart" type="button">Start Adventure ✨</button>
+        </article>
+      </div>
+      <div class="sb-progress-track" aria-hidden="true"><span id="sbProgress"></span></div>
+      <span class="sb-progress-text" id="sbProgressText">0%</span>
+      <div class="sb-hit-flash" id="sbHitFlash" aria-hidden="true"></div>
+    </div>
+    <div class="sb-controls" aria-label="Touch controls">
+      <button type="button" data-sb-control="left" aria-label="Move left">◀</button>
+      <button type="button" data-sb-control="right" aria-label="Move right">▶</button>
+      <button type="button" data-sb-control="jump" aria-label="Jump">JUMP ⤴</button>
+    </div>
+    <p class="sb-help">Desktop: A / D or ← / → to move · Space / ↑ to jump twice · P to pause</p>
+  </div>
+</section>
       <section id="game" class="view">
         <button data-go="shop">
           ← Gift shop
@@ -358,11 +404,13 @@
     <script src="puzzle.js"></script>
     <script src="candy.js"></script>
     <script src="games-menu.js"></script>
+    <script src="save-my-bebe.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {});
         });
       }
-    </script>  </body>
+    </script>
+  </body>
 </html>

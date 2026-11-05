@@ -11,6 +11,10 @@
     set("arcadeFlappyBest", read("flappy-shazeee-best"));
     set("arcadeFruitBest", read("fruit-ninja-halloween-best"));
     set("arcadeCandyBest", read("candy-collector-best"));
+    set("arcadeSaveBebeBest", read("save-my-bebe-best-score"));
+    set("arcadeSaveBebeHearts", read("save-my-bebe-best-hearts"));
+    const rescueTime = Number(read("save-my-bebe-best-time", "0"));
+    set("arcadeSaveBebeTime", rescueTime ? time(rescueTime) : "—");
     const easy = Number(read("our-little-puzzle-best-3", "0"));
     const medium = Number(read("our-little-puzzle-best-4", "0"));
     const hard = Number(read("our-little-puzzle-best-5", "0"));
