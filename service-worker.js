@@ -1,4 +1,4 @@
-const CACHE_NAME = "allyzah-halloween-offline-v1";
+const CACHE_NAME = "allyzah-halloween-offline-v2";
 const APP_SHELL = [
   "./", "./index.html", "./manifest.webmanifest",
   "./style.css", "./flappy.css", "./games.css", "./fruit.css", "./puzzle.css", "./candy.css",
@@ -32,12 +32,47 @@ self.addEventListener("activate", event => {
   );
 });
 
+async function serveCachedRange(request) {
+  const cached = await caches.match(new Request(request.url), { ignoreSearch: true });
+  if (!cached) return fetch(request);
+
+  const range = request.headers.get("range") || "";
+  const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+  const data = await cached.arrayBuffer();
+  const size = data.byteLength;
+  if (!match || size === 0) {
+    return new Response(null, { status: 416, headers: { "Content-Range": `bytes */${size}` } });
+  }
+
+  let start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));
+  let end = match[2] && match[1] ? Math.min(Number(match[2]), size - 1) : size - 1;
+  if (start >= size || end < start) {
+    return new Response(null, { status: 416, headers: { "Content-Range": `bytes */${size}` } });
+  }
+
+  return new Response(data.slice(start, end + 1), {
+    status: 206,
+    statusText: "Partial Content",
+    headers: {
+      "Accept-Ranges": "bytes",
+      "Content-Length": String(end - start + 1),
+      "Content-Range": `bytes ${start}-${end}/${size}`,
+      "Content-Type": cached.headers.get("Content-Type") || "application/octet-stream"
+    }
+  });
+}
+
 self.addEventListener("fetch", event => {
   const request = event.request;
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+
+  if (request.headers.has("range")) {
+    event.respondWith(serveCachedRange(request));
+    return;
+  }
 
   if (request.mode === "navigate") {
     event.respondWith(
