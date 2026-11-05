@@ -31,6 +31,23 @@
   };
   Object.values(voices).forEach(voice => { voice.preload = "none"; });
 
+  async function primeVoiceClipsForOfflinePlayback() {
+    await Promise.all(Object.values(voices).map(async clip => {
+      const originalSource = clip.src;
+      try {
+        const response = await fetch(originalSource);
+        if (!response.ok) return;
+        const audioBlob = new Blob([await response.arrayBuffer()], { type: "audio/mp4" });
+        clip.src = URL.createObjectURL(audioBlob);
+        clip.preload = "auto";
+        clip.load();
+      } catch (_) {
+        // Keep the original URL as a fallback if fetching or blob playback is unavailable.
+      }
+    }));
+  }
+  primeVoiceClipsForOfflinePlayback();
+
   function playVoice(name, { skipIfPlaying = false } = {}) {
     const clip = voices[name];
     if (!clip) return false;
